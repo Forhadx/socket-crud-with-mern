@@ -19,13 +19,13 @@ app.get("/", async (req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-const URL = process.env.MONGO_URI;
+const DB_URL = process.env.DB_URL;
 
 const server = http.createServer(app);
 socketServer.registerSocketServer(server);
 
 mongoose
-  .connect(URL)
+  .connect(DB_URL)
   .then(() => {
     server.listen(PORT, () => {
       console.log(`SERVER RUN AT: ${PORT}`);

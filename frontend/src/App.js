@@ -5,7 +5,7 @@ import Lists from "./Lists";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:5951");
 
 function App() {
   const [listItems, setListItems] = useState([]);
@@ -13,7 +13,7 @@ function App() {
 
   // ------ FETCH -------
   useEffect(() => {
-    axios.get("http://localhost:5000").then((res) => {
+    axios.get("http://localhost:5951").then((res) => {
       setListItems(res.data.persons);
     });
   }, []);
