@@ -24,42 +24,42 @@ export default function SocketPage() {
     await socket.emit("client:add_person", data);
   };
 
-  useEffect(() => {
-    const handler = (data: any) => {
-      setListItems((list: any) => [data, ...list]);
-    };
-    socket.on("server:add_person", handler);
-    return () => socket.off("server:add_person", handler);
-  }, []);
-
   //------ DELETE -------
   const deleteItemHandler = async (id) => {
     await socket.emit("client:delete_person", { _id: id });
   };
-
-  useEffect(() => {
-    const handler = (data: any) => {
-      setListItems((items) => items.filter((i) => i._id !== data._id));
-    };
-    socket.on("server:delete_person", handler);
-    return () => socket.off("server:delete_person", handler);
-  }, []);
 
   // ------- UPDATE ------
   const updateItemHandler = async (data: any) => {
     await socket.emit("client:update_person", data);
   };
 
+  // ------- ALL SOCKET ACTIONS ------
+  const addHandler = (data: any) => {
+    setListItems((list: any) => [data, ...list]);
+  };
+
+  const deleteHandler = (data: any) => {
+    setListItems((items) => items.filter((i) => i._id !== data._id));
+  };
+
+  const updateHandler = (data: any) => {
+    setListItems((items) => {
+      let index = items.findIndex((i) => i._id === data._id);
+      items[index] = data;
+      return [...items];
+    });
+  };
+
   useEffect(() => {
-    const handler = (data: any) => {
-      setListItems((items) => {
-        let index = items.findIndex((i) => i._id === data._id);
-        items[index] = data;
-        return [...items];
-      });
+    socket.on("server:add_person", addHandler);
+    socket.on("server:delete_person", deleteHandler);
+    socket.on("server:update_person", updateHandler);
+    return () => {
+      socket.off("server:add_person", addHandler);
+      socket.off("server:delete_person", deleteHandler);
+      socket.off("server:update_person", updateHandler);
     };
-    socket.on("server:update_person", handler);
-    return () => socket.off("server:update_person", handler);
   }, []);
 
   return (
