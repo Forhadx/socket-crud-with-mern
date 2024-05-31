@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import InputForm from "../../components/InputForm";
-import Lists from "../../components/Lists";
+import InputForm from "../../components/socket/InputForm";
+import Lists from "../../components/socket/Lists";
 import io from "socket.io-client";
 import axios from "axios";
 

@@ -39,7 +39,7 @@ export default function RootLayout({
               </li>
             </ul>
           </header>
-          <main className="p-4">{children}</main>
+          <main className="p-4 pt-28">{children}</main>
         </Providers>
       </body>
     </html>
