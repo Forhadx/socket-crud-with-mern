@@ -26,6 +26,10 @@ const socketSlice = createSlice({
     addUser: (state: any, action: any) => {
       state.users.push(action.payload);
     },
+    addHandler: (state: any, action: any) => {
+      console.log("action.payload: ", action.payload);
+      state.users.push(action.payload);
+    },
   },
   extraReducers(builder) {
     builder
@@ -47,5 +51,5 @@ export const selectAllUsers = (state: any) => state.users.users;
 export const selectAllUsersStatus = (state: any) => state.users.status;
 export const selectAllUsersError = (state: any) => state.users.error;
 
-export const { addUser } = socketSlice.actions;
+export const { addUser, addHandler } = socketSlice.actions;
 export default socketSlice.reducer;
