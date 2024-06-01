@@ -23,8 +23,12 @@ const socketSlice = createSlice({
     status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
     updateUserId: null,
+    connectionStatus: "disconnected", //  connected | disconnected
   },
   reducers: {
+    setConnectionStatus: (state, action) => {
+      state.connectionStatus = action.payload;
+    },
     addHandler: (state: any, action: any) => {
       state.users = [action.payload, ...state.users];
     },
@@ -56,6 +60,9 @@ const socketSlice = createSlice({
 export const selectAllUsers = (state: any) => state.users.users;
 export const selectAllUsersStatus = (state: any) => state.users.status;
 export const selectAllUsersError = (state: any) => state.users.error;
+export const selectConnectionStatus = (state: any) =>
+  state.users.connectionStatus;
 
-export const { addHandler, deleteHandler, updateHandler } = socketSlice.actions;
+export const { setConnectionStatus, addHandler, deleteHandler, updateHandler } =
+  socketSlice.actions;
 export default socketSlice.reducer;

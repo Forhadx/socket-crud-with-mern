@@ -6,6 +6,7 @@ import {
   selectAllUsersStatus,
   selectAllUsersError,
   deleteHandler,
+  selectConnectionStatus,
 } from "@/store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import socketService from "@/socket/socketService";
@@ -16,6 +17,7 @@ const Lists = ({ setUpdateUser }) => {
   const users = useSelector(selectAllUsers);
   const status = useSelector(selectAllUsersStatus);
   const error = useSelector(selectAllUsersError);
+  const connStatus = useSelector(selectConnectionStatus);
 
   const deleteItemHandler = async (id) => {
     dispatch({ type: "socket/delete_person", payload: { _id: id } });
@@ -23,6 +25,7 @@ const Lists = ({ setUpdateUser }) => {
 
   return (
     <div>
+      <h1 className="text-green-500">connection status: {connStatus}</h1>
       {(status === "loading" || status === "idle") && (
         <p className="text-3xl text-red-500">Loading...</p>
       )}

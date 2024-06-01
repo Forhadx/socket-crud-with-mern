@@ -1,7 +1,11 @@
 // socketMiddleware.js
-import { addHandler, deleteHandler, updateHandler } from "@/store/userSlice";
+import {
+  addHandler,
+  deleteHandler,
+  setConnectionStatus,
+  updateHandler,
+} from "@/store/userSlice";
 import { io } from "socket.io-client";
-// import { addMessage, setConnectionStatus } from "./socketSlice";
 
 const socketMiddleware = (store) => {
   let socket;
@@ -15,23 +19,13 @@ const socketMiddleware = (store) => {
 
     socket.on("connect", () => {
       reconnectAttempts = 0;
-      //   store.dispatch(setConnectionStatus("connected"));
+      store.dispatch(setConnectionStatus("connected"));
       console.log("Socket connected");
     });
 
     socket.on("disconnect", () => {
-      //   store.dispatch(setConnectionStatus("disconnected"));
+      store.dispatch(setConnectionStatus("disconnected"));
       console.log("Socket disconnected");
-    });
-
-    socket.on("reconnect_attempt", () => {
-      reconnectAttempts += 1;
-      console.log(`Reconnection attempt #${reconnectAttempts}`);
-    });
-
-    socket.on("reconnect_failed", () => {
-      //   store.dispatch(setConnectionStatus("reconnect_failed"));
-      console.log("Reconnection failed");
     });
 
     socket.on("server:add_person", (data) => {
@@ -45,7 +39,6 @@ const socketMiddleware = (store) => {
     socket.on("server:update_person", (data) => {
       store.dispatch(updateHandler(data));
     });
-
 
     // Additional event listeners
     socket.on("error", (error) => {

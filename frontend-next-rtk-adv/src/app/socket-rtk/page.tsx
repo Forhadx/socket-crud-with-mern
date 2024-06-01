@@ -14,14 +14,6 @@ export default function SocketPage() {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch({ type: "socket/connect" });
-
-    return () => {
-      dispatch({ type: "socket/disconnect" });
-    };
-  }, [dispatch]);
-
   return (
     <div className="App">
       <h1>Use rtk with socket api</h1>

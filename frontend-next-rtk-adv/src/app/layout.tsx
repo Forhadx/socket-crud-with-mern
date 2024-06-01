@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Providers from "./provider";
+import SocketProvider from "./socketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,17 +21,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <header>
-            <ul className="flex gap-4 p-4 bg-blue-500 text-white">
-              <li>
-                <Link href="/">home</Link>
-              </li>
-              <li>
-                <Link href="/socket-rtk">socket-rtk</Link>
-              </li>
-            </ul>
-          </header>
-          <main className="p-4 pt-28">{children}</main>
+          <SocketProvider>
+            <header>
+              <ul className="flex gap-4 p-4 bg-blue-500 text-white">
+                <li>
+                  <Link href="/">home</Link>
+                </li>
+                <li>
+                  <Link href="/socket-rtk">socket-rtk</Link>
+                </li>
+              </ul>
+            </header>
+            <main className="p-4 pt-28">{children}</main>
+          </SocketProvider>
         </Providers>
       </body>
     </html>
