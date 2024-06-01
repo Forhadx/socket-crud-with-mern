@@ -1,59 +1,58 @@
-import { addHandler } from "@/store/userSlice";
+import { addHandler, updateHandler } from "@/store/userSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import socketService from "../../socket/socketService";
 
-const InputForm = () => {
+const InputForm = ({ updateUser }: any) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
 
-  const addItemHandler = async (data: any) => {
-    await socketService.emit("client:add_person", data);
-  };
-
   const submitFormHandler = (event) => {
     event.preventDefault();
 
-    addItemHandler({ name, age });
+    let data = {
+      name,
+      age,
+    };
+
+    if (updateUser) {
+      socketService.emit("client:update_person", {
+        ...data,
+        _id: updateUser?._id,
+      });
+    } else {
+      socketService.emit("client:add_person", data);
+    }
 
     setName("");
     setAge("");
-
-    // dispatch(addHandler()).unwrap();
-
-    /*
-    if (!editItem) {
-      // addItemHandler({ name, age });
-      setName("");
-      setAge("");
-    } else {
-      // updateItemHandler({ name, age, _id: editItem._id });
-      setName("");
-      setAge("");
-    }*/
   };
 
   useEffect(() => {
     socketService.connect();
-
-    socketService.on("server:add_person", (data) => {
-      dispatch(addHandler(data));
-    });
-    return () =>
+    socketService.on("server:add_person", (data) => dispatch(addHandler(data)));
+    socketService.on("server:update_person", (data) =>
+      dispatch(updateHandler(data))
+    );
+    return () => {
       socketService.off("server:add_person", (data) => {
         dispatch(addHandler(data));
         // socketService.disconnect();
       });
+      socketService.off("server:update_person", (data) =>
+        dispatch(updateHandler(data))
+      );
+    };
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (editItem) {
-  //     setName(editItem.name);
-  //     setAge(editItem.age);
-  //   }
-  // }, [editItem]);
+  useEffect(() => {
+    if (updateUser) {
+      setName(updateUser.name);
+      setAge(updateUser.age);
+    }
+  }, [updateUser]);
 
   return (
     <div>

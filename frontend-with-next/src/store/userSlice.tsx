@@ -24,14 +24,16 @@ const socketSlice = createSlice({
     updateUserId: null,
   },
   reducers: {
-    // addUser: (state: any, action: any) => {
-    //   state.users.push(action.payload);
-    // },
     addHandler: (state: any, action: any) => {
       state.users = [action.payload, ...state.users];
     },
     deleteHandler: (state: any, action: any) => {
       state.users = state.users.filter((i) => i._id !== action.payload._id);
+    },
+    updateHandler: (state: any, action: any) => {
+      state.users = state.users.map((item) =>
+        item?._id === action.payload._id ? action.payload : item
+      );
     },
   },
   extraReducers(builder) {
@@ -54,5 +56,5 @@ export const selectAllUsers = (state: any) => state.users.users;
 export const selectAllUsersStatus = (state: any) => state.users.status;
 export const selectAllUsersError = (state: any) => state.users.error;
 
-export const { addUser, addHandler, deleteHandler } = socketSlice.actions;
+export const { addHandler, deleteHandler, updateHandler } = socketSlice.actions;
 export default socketSlice.reducer;

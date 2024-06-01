@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import socketService from "@/socket/socketService";
 
-const Lists = () => {
+const Lists = ({ setUpdateUser }) => {
   const dispatch = useDispatch();
 
   const users = useSelector(selectAllUsers);
@@ -32,6 +32,8 @@ const Lists = () => {
         dispatch(deleteHandler(data))
       );
   }, [dispatch]);
+
+  
 
   return (
     <div>
@@ -56,7 +58,7 @@ const Lists = () => {
                 <td className="border px-4 py-2">{item.name}</td>
                 <td className="border px-4 py-2">{item.age}</td>
                 <td
-                  // onClick={() => setEditItem(item)}
+                  onClick={() => setUpdateUser(item)}
                   className="border px-4 py-2"
                 >
                   <FiEdit />
