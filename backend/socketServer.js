@@ -13,6 +13,7 @@ const registerSocketServer = (server) => {
 
     // ADD
     socket.on("client:add_person", async (data) => {
+      console.log("add..");
       const person = await PersonModel.create(data);
       await person.save();
       io.emit("server:add_person", person);
@@ -30,7 +31,6 @@ const registerSocketServer = (server) => {
       person.name = data.name;
       person.age = data.age;
       await person.save();
-      // console.log(person);
       io.emit("server:update_person", person);
     });
 
