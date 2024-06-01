@@ -9,16 +9,13 @@ import { io } from "socket.io-client";
 
 const socketMiddleware = (store) => {
   let socket;
-  let reconnectAttempts = 0;
-  console.log("con..");
 
   const connectSocket = () => {
     socket = io("http://localhost:5951", {
-      reconnectionAttempts: 5,
+      reconnection: false,
     });
 
     socket.on("connect", () => {
-      reconnectAttempts = 0;
       store.dispatch(setConnectionStatus("connected"));
       console.log("Socket connected");
     });
