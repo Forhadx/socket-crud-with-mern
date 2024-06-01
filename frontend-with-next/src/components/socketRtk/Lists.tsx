@@ -5,13 +5,33 @@ import {
   selectAllUsers,
   selectAllUsersStatus,
   selectAllUsersError,
+  deleteHandler,
 } from "@/store/userSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import socketService from "@/socket/socketService";
 
 const Lists = () => {
+  const dispatch = useDispatch();
+
   const users = useSelector(selectAllUsers);
   const status = useSelector(selectAllUsersStatus);
   const error = useSelector(selectAllUsersError);
+
+  const deleteItemHandler = async (id) => {
+    await socketService.emit("client:delete_person", { _id: id });
+  };
+
+  useEffect(() => {
+    socketService.connect();
+
+    socketService.on("server:delete_person", (data) =>
+      dispatch(deleteHandler(data))
+    );
+    return () =>
+      socketService.off("server:delete_person", (data) =>
+        dispatch(deleteHandler(data))
+      );
+  }, [dispatch]);
 
   return (
     <div>
@@ -42,7 +62,7 @@ const Lists = () => {
                   <FiEdit />
                 </td>
                 <td
-                  // onClick={() => deleteItemHandler(item._id)}
+                  onClick={() => deleteItemHandler(item._id)}
                   className="border px-4 py-2"
                 >
                   <MdOutlineDeleteOutline />

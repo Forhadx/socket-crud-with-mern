@@ -44,7 +44,7 @@ export default function SocketPage() {
   };
 
   const updateHandler = (data: any) => {
-    setListItems((items) => {
+    setListItems((items) => { 
       let index = items.findIndex((i) => i._id === data._id);
       items[index] = data;
       return [...items];

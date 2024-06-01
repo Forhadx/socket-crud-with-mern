@@ -21,15 +21,17 @@ const socketSlice = createSlice({
     users: [],
     status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
+    updateUserId: null,
   },
   reducers: {
-    addUser: (state: any, action: any) => {
-      state.users.push(action.payload);
-    },
+    // addUser: (state: any, action: any) => {
+    //   state.users.push(action.payload);
+    // },
     addHandler: (state: any, action: any) => {
-      // state.users.push(action.payload);
-      // state.users.unshift(action.payload);
       state.users = [action.payload, ...state.users];
+    },
+    deleteHandler: (state: any, action: any) => {
+      state.users = state.users.filter((i) => i._id !== action.payload._id);
     },
   },
   extraReducers(builder) {
@@ -52,5 +54,5 @@ export const selectAllUsers = (state: any) => state.users.users;
 export const selectAllUsersStatus = (state: any) => state.users.status;
 export const selectAllUsersError = (state: any) => state.users.error;
 
-export const { addUser, addHandler } = socketSlice.actions;
+export const { addUser, addHandler, deleteHandler } = socketSlice.actions;
 export default socketSlice.reducer;

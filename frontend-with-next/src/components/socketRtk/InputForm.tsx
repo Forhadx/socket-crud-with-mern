@@ -37,13 +37,14 @@ const InputForm = () => {
 
   useEffect(() => {
     socketService.connect();
+
     socketService.on("server:add_person", (data) => {
       dispatch(addHandler(data));
     });
     return () =>
       socketService.off("server:add_person", (data) => {
         dispatch(addHandler(data));
-        socketService.disconnect();
+        // socketService.disconnect();
       });
   }, [dispatch]);
 
