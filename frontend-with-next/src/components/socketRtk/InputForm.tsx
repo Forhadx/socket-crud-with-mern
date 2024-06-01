@@ -48,33 +48,6 @@ const InputForm = () => {
   }, [dispatch]);
 
   // useEffect(() => {
-  //   const handler = (data: any) => {
-  //     console.log("data::: ", data);
-  //   };
-  //   socketService.on("server:add_person", handler);
-  //   return () => socketService.off("server:add_person", handler);
-  // }, []);
-
-  // useEffect(() => {
-  //   // Establish the socket connection
-  //   socketService.connect();
-
-  //   // Event handler
-  //   const handler = (data) => {
-  //     console.log("data::: ", data);
-  //   };
-
-  //   // Listen for the event
-  //   socketService.on("server:add_person", handler);
-
-  //   // Cleanup function to disconnect and remove the event listener
-  //   return () => {
-  //     socketService.off("server:add_person", handler);
-  //     socketService.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
   //   if (editItem) {
   //     setName(editItem.name);
   //     setAge(editItem.age);

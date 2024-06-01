@@ -27,8 +27,9 @@ const socketSlice = createSlice({
       state.users.push(action.payload);
     },
     addHandler: (state: any, action: any) => {
-      console.log("action.payload: ", action.payload);
-      state.users.push(action.payload);
+      // state.users.push(action.payload);
+      // state.users.unshift(action.payload);
+      state.users = [action.payload, ...state.users];
     },
   },
   extraReducers(builder) {
